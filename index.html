@@ -1,0 +1,30 @@
+<!DOCTYPE html>
+<html>
+  <head>
+    <link rel="stylesheet" type="text/css" href="./css/style.css" />
+    <link rel="icon" type="image/svg+xml" href="favicon.svg" />
+    <meta charset="utf-8" />
+    <title>P5.js Template</title>
+  </head>
+
+  <body>
+    Hello World!
+    <button onclick="drawMode()">Draw</button>
+    <button onclick="mazeMode()">Create Maze</button>
+    <script type="module" src="/src/sketch.js"></script>
+    
+    <script>
+      import { state, Mode } from "@/state";
+      function drawMode()
+      {
+        console.log("DRAW");
+        // state = Mode.Draw;
+      }
+      function mazeMode()
+      {
+        console.log("MAZE");
+        // state = Mode.Maze;
+      }
+    </script>
+  </body>
+</html>
