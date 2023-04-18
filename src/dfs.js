@@ -9,13 +9,13 @@ export class DFS
         this.#stack = [];
         this.#grid = grid;
 
-        let current = this.#grid.at(floor(this.#grid.rows / 2) - 1, floor(this.#grid.cols / 2) - 1);
+        let current = this.#grid.at(1, 1); //centerCell();
         this.#stack.push(current);
     }
 
     fastLoop()
     {
-        while (this.#stack.length)
+        while (this.#stack.length > 0)
         {
             this.update();
         }
@@ -27,11 +27,22 @@ export class DFS
 
         let current = this.#stack.pop();
         current.visited = true;
-        current.showCurrent();
+        this.#grid.setCurrent(current, true);
 
         const neighbours = this.#grid.neighbours(current);
-        const unvisited = neighbours.filter(cell => cell && cell.visited == false);
-        
+        const unvisited = neighbours.filter(cell => cell && !cell.visited);
+
+        // console.log("current");
+        // current.debugInfo();
+        // console.log("neighbours");
+        // unvisited.forEach(cell => {
+        //     if (cell) {
+        //         cell.debugInfo();
+        //     }
+        //     else
+        //         console.log(cell);
+        // })
+
         if (unvisited.length < 1) return;
 
         this.#stack.push(current);
@@ -40,6 +51,8 @@ export class DFS
         this.#grid.removeWalls(current, next);
 
         this.#stack.push(next);
+
+        this.#grid.setCurrent(current, false);
     }
 
     #nextCell(unvisited)

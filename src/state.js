@@ -5,4 +5,4 @@ export const Mode = {
     Maze: "maze"
 }
 
-state = Mode.Draw;
+state = Mode.Maze;

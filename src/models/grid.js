@@ -1,4 +1,4 @@
-import { Cell } from '@/cell'
+import { Cell } from '@/models/cell'
 
 export class Grid
 {
@@ -6,12 +6,19 @@ export class Grid
     rows;
     cols;
 
-    constructor(width, height)
+    onGridChange;
+
+    constructor(rows, cols)
+    {
+        this.rows = rows;
+        this.cols = cols;
+
+        this.#populateGrid();
+    }
+
+    #populateGrid()
     {
         this.#grid = [];
-
-        this.rows = floor(height / Cell.width);
-        this.cols = floor(width / Cell.width);
 
         for (let row = 0; row < this.rows; ++row)
         {
@@ -21,13 +28,6 @@ export class Grid
                 this.#grid.push(cell);
             }
         }
-    }
-
-    get length() { return this.#grid.length; }
-
-    show()
-    {
-        this.#grid.forEach( cell => cell.show() );
     }
 
     neighbours(cell)
@@ -57,8 +57,9 @@ export class Grid
                     break;
                 default:
                     console.log("Non-adjacent cells by col: " + deltaCol);
-                    primary.debugInfo();
-                    secondary.debugInfo();
+                    // primary.debugInfo();
+                    // secondary.debugInfo();
+                    return true;
             }
         }
         const deltaRow = primary.row - secondary.row;
@@ -76,20 +77,42 @@ export class Grid
                     break;
                 default:
                     console.log("Non-adjacent cells by row: " + deltaRow);
-                    primary.debugInfo();
-                    secondary.debugInfo();
+                    // primary.debugInfo();
+                    // secondary.debugInfo();
+                    return true;
             }
         }
+
+        this.onGridChange(this);
+
+        return false;
     }
 
-    index(row, col)
+    setCurrent(current, state)
+    {
+        current.isCurrent = state;
+
+        this.onGridChange(this);
+    }
+
+    centerCell()
+    {
+        return this.at(floor(this.rows / 2) - 1, floor(this.cols / 2) - 1);
+    }
+
+    forEach(lambda)
+    {
+        this.#grid.forEach(lambda);
+    }
+
+    toIndex(row, col)
     {
         return col + row * this.cols;
     }
 
     atIndex(index)
     {
-        if (index < 0 || index > this.#grid.length - 1)
+        if (this.#outOfBoundsByIndex(index))
             return null;
         
         return this.#grid[index];
@@ -97,9 +120,26 @@ export class Grid
 
     at(row, col)
     {
-        if (row < 0 || row > this.rows - 1 || col < 0 || col > this.cols - 1)
+        if (this.#outOfBounds(row, col))
             return null;
-        
-        return this.atIndex(this.index(row, col));
+
+        return this.atIndex(this.toIndex(row, col));
     }
+
+    #outOfBoundsByIndex(index)
+    {
+        return index < 0 || index > this.#grid.length - 1;
+    }
+
+    #outOfBounds(row, col)
+    {
+        return row < 0 || row > this.rows - 1 || col < 0 || col > this.cols - 1;
+    }
+
+    bindGridChanged(callback)
+    {
+        this.onGridChange = callback;
+    }
+
+    get length() { return this.#grid.length; }
 }
