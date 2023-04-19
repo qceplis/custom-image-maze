@@ -1,3 +1,8 @@
+const SolverState = {
+    Running: 'running',
+    Finished: 'finished'
+};
+
 export class DFS
 {
     #stack;
@@ -8,7 +13,7 @@ export class DFS
         this.#stack = [];
         this.#grid = grid;
 
-        let current = this.#grid.at(0, 0); //centerCell();
+        let current = this.#grid.centerCell();
         this.#stack.push(current);
     }
 
@@ -22,16 +27,29 @@ export class DFS
 
     update()
     {
-        if (this.#stack.length < 1) return;
+        const state = this.#update_();
+        if (state == SolverState.Finished)
+        {
+            this.#grid.clearStatuses()
+        }
+    }
+
+    #update_()
+    {
+        if (this.#stack.length < 1) return SolverState.Finished;
         
         let current = this.#stack.pop();
         current.visited = true;
+        current.isCurrent = true;
+
         this.#grid.updateGridState();
 
         const neighbours = this.#grid.neighbours(current);
         const unvisited = neighbours.filter(cell => cell && !cell.visited);
 
-        if (unvisited.length < 1) return;
+        current.isCurrent = false;
+
+        if (unvisited.length < 1) return SolverState.Running;
 
         this.#stack.push(current);
 

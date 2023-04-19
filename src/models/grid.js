@@ -30,6 +30,18 @@ export class Grid
         }
     }
 
+    clearStatuses()
+    {
+        for (let idx = 0; idx < this.#grid.length; ++idx)
+        {
+            let cell = this.atIndex(idx);
+            cell.visited = false;
+            cell.isCurrent = false;
+        }
+
+        this.updateGridState();
+    }
+
     neighbours(cell)
     {
         return [

@@ -18,22 +18,20 @@ sketch.setup = function()
   createCanvas(width, height);
   frameRate(10);
 
-  grid = new Grid(10, 15);
+  grid = new Grid(12, 16);
   let gridView = new GridView();
   let gridController = new GridController(grid, gridView);
   dfs = new DFS(grid);
-
-  dfs.fastLoop()
 
   // dfs.fastLoop();
 }
 
 sketch.draw = function()
 {
-  // if (state == Mode.Maze) 
-  // {
-  //   dfs.update();
-  // }
+  if (state == Mode.Maze) 
+  {
+    dfs.update();
+  }
 }
 
 sketch.mouseDragged = function()
