@@ -4,9 +4,6 @@ export class CellView
 
     constructor() {}
 
-    // like neightbours, have an array of weights
-    // start at 10, and set to lower weight for desired path
-
     show(cell)
     {
         const [x, y] = indicesToCoords(cell.row, cell.col);
@@ -24,7 +21,7 @@ export class CellView
     {
         fill(200, 0, 255, 100);
         noStroke();
-        rect(x, y, CellView.width, CellView.width);
+        rect(x, y, width, width);
         stroke(0);
         noFill();
     }

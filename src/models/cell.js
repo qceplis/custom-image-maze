@@ -3,7 +3,7 @@ export class Cell
     #row;
     #col;
 
-    visited;
+    #visited;
     isCurrent;
 
     // Walls
@@ -17,7 +17,7 @@ export class Cell
         this.#row = row;
         this.#col = col;
 
-        this.visited = false;
+        this.#visited = false;
         this.isCurrent = false;
 
         this.#isTopVisible    = true;
@@ -28,18 +28,24 @@ export class Cell
 
     debugInfo(message="")
     {
-        console.log(message + ": " + this.#row +", "+ this.#col +", "+ this.visited);
+        const wallString = (this.#isLeftVisible ? "/" : " ") +
+                           (this.#isTopVisible ? "-" : " ") +
+                           (this.#isBottomVisible ? "_" : " ") +
+                           (this.#isRightVisible ? "|" : " ");
+        console.log(message + ": " + this.#row +", "+ this.#col +", "+ this.visited + ", " + wallString);
     }
 
     get row() { return this.#row; }
     get col() { return this.#col; }
 
-    // get visisted() { return this.#visited; }
-    // set visisted(val) 
-    // { 
-    //     console.log(typeof(val));
-    //     this.#visited = val;
-    // }
+    // like neightbours, have an array of weights
+    // start at 10, and set to lower weight for desired path
+
+    get visited() { return this.#visited; }
+    set visited(val)
+    {
+        this.#visited = val;
+    }
 
     get isTopVisible() { return this.#isTopVisible; }
     set isTopVisible(val) 

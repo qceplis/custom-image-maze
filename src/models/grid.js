@@ -6,7 +6,7 @@ export class Grid
     rows;
     cols;
 
-    onGridChange;
+    onGridChanged;
 
     constructor(rows, cols)
     {
@@ -83,16 +83,7 @@ export class Grid
             }
         }
 
-        this.onGridChange(this);
-
         return false;
-    }
-
-    setCurrent(current, state)
-    {
-        current.isCurrent = state;
-
-        this.onGridChange(this);
     }
 
     centerCell()
@@ -136,9 +127,14 @@ export class Grid
         return row < 0 || row > this.rows - 1 || col < 0 || col > this.cols - 1;
     }
 
+    updateGridState()
+    {
+        this.onGridChanged(this);
+    }
+
     bindGridChanged(callback)
     {
-        this.onGridChange = callback;
+        this.onGridChanged = callback;
     }
 
     get length() { return this.#grid.length; }

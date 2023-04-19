@@ -11,6 +11,7 @@ export class GridView
 
     show(grid)
     {
+        background(166);
         grid.forEach( cell => this.#cellView.show(cell) );
     }
 }

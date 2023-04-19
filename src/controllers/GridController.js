@@ -10,6 +10,7 @@ export class GridController
 
         this.bindEventCallbacks();
 
+        // show grid on construction
         this.onGridChanged(this.#model);
     }
 
@@ -20,7 +21,6 @@ export class GridController
 
     onGridChanged(grid)
     {
-        background(166);
         this.#view.show(grid);
     }
 }
